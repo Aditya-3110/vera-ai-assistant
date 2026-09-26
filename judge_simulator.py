@@ -19,7 +19,7 @@ Author: magicpin AI Challenge Team
 # =============================================================================
 # ██████  CONFIGURATION - EDIT THIS SECTION ██████
 # =============================================================================
-
+import os
 # Your bot's URL (where your bot is running)
 BOT_URL = "http://localhost:8080"
 
@@ -30,7 +30,7 @@ LLM_PROVIDER = "gemini"
 LLM_API_KEY = os.getenv("GCP_API_KEY")
 
 # Model to use (leave empty for default, or specify like "gpt-4o", "claude-3-5-sonnet-20241022", etc.)
-LLM_MODEL = "gemini-3.8-flash" 
+LLM_MODEL = "gemini-2.5-flash"
 # For Ollama only: local server URL
 OLLAMA_URL = "http://localhost:11434"
 
@@ -41,7 +41,7 @@ TEST_SCENARIO = "all"
 # ██████  END OF CONFIGURATION - DON'T EDIT BELOW THIS LINE ██████
 # =============================================================================
 
-import os
+
 import sys
 import json
 import time
@@ -404,7 +404,7 @@ class BotClient:
             try:
                 return json.loads(e.read().decode("utf-8")), None, latency
             except:
-                return None, f"HTTP {e.code}", latency
+                return None, f"HTTP {e.code}: {e.read().decode('utf-8')}"
         except Exception as e:
             return None, str(e), (time.time() - start) * 1000
 
@@ -640,7 +640,7 @@ class JudgeSimulator:
         for slug, cat in self.dataset.categories.items():
             data, err, _ = self.client.push_context("category", slug, 1, cat)
             status = "PASS" if data and data.get("accepted") else "FAIL"
-            print(f"  [{status}] category/{slug}")
+            print(f"  [{status}] category/{slug} | error={err} | response={data}")
 
         for mid, m in list(self.dataset.merchants.items())[:5]:
             data, err, _ = self.client.push_context("merchant", mid, 1, m)

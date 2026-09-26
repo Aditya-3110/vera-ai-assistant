@@ -52,7 +52,7 @@ app.post("/v1/context", (req, res) => {
   const key = `${scope}:${context_id}`;
   const current = contexts.get(key);
 
-  if (current && current.version >= version) {
+  if (current && current.version > version) {
     return res.status(409).json({
       accepted: false,
       reason: "stale_version",
