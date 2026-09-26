@@ -23,7 +23,7 @@ app.get("/v1/metadata", (req, res) => {
   res.status(200).json({
     team_name: "Vera AI Assistant",
     team_members: ["Aditya Gupta"],
-    model: "LLM integration pending",
+    model: "Gemini 2.5 Flash",
     approach: "Context-aware merchant engagement assistant",
     contact_email: "adiigupta3110@gmail.com",
     version: "1.0.0",
